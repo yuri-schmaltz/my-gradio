@@ -166,11 +166,9 @@ def start_server(
             elif GRADIO_WATCH_DIRS:
                 reloader = SourceFileReloader(
                     app=app,
-                    logging.info(f'Servidor iniciado com sucesso na porta {port}')
                     watch_dirs=GRADIO_WATCH_DIRS,
                     watch_module_name=GRADIO_WATCH_MODULE_NAME,
                     demo_name=GRADIO_WATCH_DEMO_NAME,
-                    logging.error(f'Erro ao iniciar servidor na porta {port}: {e}', exc_info=True)
                     stop_event=threading.Event(),
                     demo_file=GRADIO_WATCH_DEMO_PATH,
                     watch_module=sys.modules["__main__"],
@@ -180,8 +178,14 @@ def start_server(
             else:
                 server = Server(config=config)
             server.run_in_thread()
+            import logging
+            logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+            logging.info(f'Servidor iniciado com sucesso na porta {port}')
             break
-        except (OSError, ServerFailedToStartError):
+        except (OSError, ServerFailedToStartError) as e:
+            import logging
+            logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+            logging.error(f'Erro ao iniciar servidor na porta {port}: {e}', exc_info=True)
             pass
     else:
         raise OSError(
