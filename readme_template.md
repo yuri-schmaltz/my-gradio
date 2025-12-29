@@ -37,6 +37,8 @@ $getting_started
 
 ## Questions?
 
+
+[![Coverage Status](https://codecov.io/gh/gradio-app/gradio/branch/main/graph/badge.svg)](https://codecov.io/gh/gradio-app/gradio)
 If you'd like to report a bug or have a feature request, please create an [issue on GitHub](https://github.com/gradio-app/gradio/issues/new/choose). For general questions about usage, we are available on [our Discord server](https://discord.com/invite/feTf9x3ZSB) and happy to help.
 
 If you like Gradio, please leave us a ⭐ on GitHub!

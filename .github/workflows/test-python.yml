@@ -65,6 +65,12 @@ jobs:
         run: |
           . venv/bin/activate
           ./scripts/lint_backend.sh
+
+        - name: Ruff lint
+          if: runner.os == 'Linux'
+          run: |
+            python -m ruff gradio test client
+            python -m ruff format --check gradio test client
       - name: Typecheck
         if: runner.os == 'Linux'
         run: |

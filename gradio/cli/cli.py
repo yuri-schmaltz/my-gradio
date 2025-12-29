@@ -2,6 +2,7 @@ import sys
 
 import typer
 from rich.console import Console
+import logging
 
 from gradio import analytics
 
@@ -30,6 +31,8 @@ app.command("sketch", help="Open the Sketch app to design a Gradio app.")(sketch
 
 def cli():
     args = sys.argv[1:]
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+    logging.info('Inicializando Gradio CLI')
     if len(args) == 0:
         raise ValueError("No file specified.")
     if args[0] in {"deploy", "environment", "deploy-discord", "sketch", "load"}:
@@ -44,6 +47,7 @@ def cli():
         except ValueError:
             console = Console()
             console.print_exception()
+            logging.error(f'Erro na CLI: {error}', exc_info=True)
     elif args[0] in {"upload-mcp"}:
         upload_mcp(args[1], args[2])
     elif args[0] == "--vibe":

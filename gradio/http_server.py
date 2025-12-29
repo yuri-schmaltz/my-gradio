@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import socket
 import sys
+import logging
 import threading
 import time
 from collections.abc import Callable
@@ -106,6 +107,8 @@ def start_server(
         path_to_local_server: the complete address that the local server can be accessed at
         server: the server object that is a subclass of uvicorn.Server (used to close the server)
     """
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+    logging.info('Inicializando Gradio HTTP Server')
     if ssl_keyfile is not None and ssl_certfile is None:
         raise ValueError("ssl_certfile must be provided if ssl_keyfile is provided.")
 
@@ -163,9 +166,11 @@ def start_server(
             elif GRADIO_WATCH_DIRS:
                 reloader = SourceFileReloader(
                     app=app,
+                    logging.info(f'Servidor iniciado com sucesso na porta {port}')
                     watch_dirs=GRADIO_WATCH_DIRS,
                     watch_module_name=GRADIO_WATCH_MODULE_NAME,
                     demo_name=GRADIO_WATCH_DEMO_NAME,
+                    logging.error(f'Erro ao iniciar servidor na porta {port}: {e}', exc_info=True)
                     stop_event=threading.Event(),
                     demo_file=GRADIO_WATCH_DEMO_PATH,
                     watch_module=sys.modules["__main__"],
